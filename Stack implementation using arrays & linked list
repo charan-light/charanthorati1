@@ -1,0 +1,198 @@
+#include <stdio.h>
+#define MAX 5
+int stack[MAX];
+int top = -1;
+
+// Push operation
+void push(int value) {
+    if (top == MAX - 1) {
+        printf("Stack Overflow! Cannot insert %d\n", value);
+    } else {
+        stack[++top] = value;
+        printf("%d pushed into stack\n", value);
+    }
+}
+
+// Pop operation
+void pop() {
+    if (top == -1) {
+        printf("Stack Underflow! Stack is empty\n");
+    } else {
+        printf("%d popped from stack\n", stack[top--]);
+    }
+}
+
+// Peek operation
+void peek() {
+    if (top == -1) {
+        printf("Stack is empty\n");
+    } else {
+        printf("Top element is: %d\n", stack[top]);
+    }
+}
+
+// Display operation
+void display() {
+    if (top == -1) {
+        printf("Stack is empty\n");
+    } else {
+        printf("Stack elements are:\n");
+        for (int i = top; i >= 0; i--) {
+            printf("%d\n", stack[i]);
+        }
+    }
+}
+
+int main() {
+    int choice, value;
+
+    do {
+        printf("\n--- Stack Operations ---\n");
+        printf("1. Push\n2. Pop\n3. Peek\n4. Display\n0. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter value to push: ");
+                scanf("%d", &value);
+                push(value);
+                break;
+
+            case 2:
+                pop();
+                break;
+
+            case 3:
+                peek();
+                break;
+
+            case 4:
+                display();
+                break;
+
+            case 0:
+                printf("Exiting program...\n");
+                break;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
+
+Aim
+To implement a Stack using a Linked List in C and perform operations like push, pop, peek, and display using a menu-driven program.
+
+Description
+A stack follows LIFO (Last In First Out).
+In this implementation:
+•	Each element is stored in a node (data + pointer). 
+•	The top points to the first node. 
+•	No fixed size → dynamic memory allocation (no overflow unless memory is full). 
+•	
+Program :
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define node structure
+struct node {
+    int data;
+    struct node* next;
+};
+
+struct node* top = NULL;
+
+// Push operation
+void push(int value) {
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    
+    if (newNode == NULL) {
+        printf("Stack Overflow! Memory not available\n");
+    } else {
+        newNode->data = value;
+        newNode->next = top;
+        top = newNode;
+        printf("%d pushed into stack\n", value);
+    }
+}
+
+// Pop operation
+void pop() {
+    if (top == NULL) {
+        printf("Stack Underflow! Stack is empty\n");
+    } else {
+        struct node* temp = top;
+        printf("%d popped from stack\n", top->data);
+        top = top->next;
+        free(temp);
+    }
+}
+
+// Peek operation
+void peek() {
+    if (top == NULL) {
+        printf("Stack is empty\n");
+    } else {
+        printf("Top element is: %d\n", top->data);
+    }
+}
+
+// Display operation
+void display() {
+    if (top == NULL) {
+        printf("Stack is empty\n");
+    } else {
+        struct node* temp = top;
+        printf("Stack elements are:\n");
+        while (temp != NULL) {
+            printf("%d\n", temp->data);
+            temp = temp->next;
+        }
+    }
+}
+
+int main() {
+    int choice, value;
+
+    do {
+        printf("\n--- Stack Operations (Linked List) ---\n");
+        printf("1. Push\n2. Pop\n3. Peek\n4. Display\n0. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter value: ");
+                scanf("%d", &value);
+                push(value);
+                break;
+
+            case 2:
+                pop();
+                break;
+
+            case 3:
+                peek();
+                break;
+
+            case 4:
+                display();
+                break;
+
+            case 0:
+                printf("Exiting program...\n");
+                break;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
