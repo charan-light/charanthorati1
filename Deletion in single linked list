@@ -1,0 +1,149 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for node
+struct node
+{
+    int data;
+    struct node *next;
+};
+
+struct node *head = NULL;
+
+// Create linked list
+void create()
+{
+    struct node *newnode, *temp;
+    int choice = 1;
+
+    while(choice)
+    {
+        newnode = (struct node*)malloc(sizeof(struct node));
+
+        printf("Enter data: ");
+        scanf("%d", &newnode->data);
+
+        newnode->next = NULL;
+
+        if(head == NULL)
+        {
+            head = newnode;
+            temp = newnode;
+        }
+        else
+        {
+            temp->next = newnode;
+            temp = newnode;
+        }
+
+        printf("Do you want to continue (1/0): ");
+        scanf("%d", &choice);
+    }
+}
+
+// Delete at beginning
+void delete_begin()
+{
+    struct node *temp;
+
+    if(head == NULL)
+    {
+        printf("List is empty\n");
+        return;
+    }
+
+    temp = head;
+    head = head->next;
+    free(temp);
+
+    printf("Node deleted from beginning\n");
+}
+
+// Delete at end
+void delete_end()
+{
+    struct node *temp, *prev;
+
+    if(head == NULL)
+    {
+        printf("List is empty\n");
+        return;
+    }
+
+    if(head->next == NULL)
+    {
+        free(head);
+        head = NULL;
+        return;
+    }
+
+    temp = head;
+
+    while(temp->next != NULL)
+    {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    prev->next = NULL;
+    free(temp);
+
+    printf("Node deleted from end\n");
+}
+
+// Delete at any position
+void delete_position()
+{
+    struct node *temp, *nextnode;
+    int pos, i = 1;
+
+    printf("Enter position to delete: ");
+    scanf("%d", &pos);
+
+    temp = head;
+
+    while(i < pos-1)
+    {
+        temp = temp->next;
+        i++;
+    }
+
+    nextnode = temp->next;
+    temp->next = nextnode->next;
+    free(nextnode);
+
+    printf("Node deleted at position %d\n", pos);
+}
+
+// Display linked list
+void display()
+{
+    struct node *temp;
+
+    temp = head;
+
+    printf("Linked List: ");
+    while(temp != NULL)
+    {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+int main()
+{
+    create();
+    display();
+
+    delete_begin();
+    display();
+
+    delete_end();
+    display();
+
+    delete_position();
+    display();
+
+    return 0;
+}
