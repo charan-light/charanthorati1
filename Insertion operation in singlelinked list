@@ -1,0 +1,174 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a node
+struct node
+{
+    int data;
+    struct node *next;
+};
+
+struct node *head = NULL;
+
+// Function to create a linked list
+void create()
+{
+    struct node *newnode, *temp;
+    int choice = 1;
+
+    while(choice)
+    {
+        newnode = (struct node*)malloc(sizeof(struct node));
+
+        printf("Enter data: ");
+        scanf("%d", &newnode->data);
+
+        newnode->next = NULL;
+
+        if(head == NULL)
+        {
+            head = newnode;
+            temp = newnode;
+        }
+        else
+        {
+            temp->next = newnode;
+            temp = newnode;
+        }
+
+        printf("Do you want to continue (1/0): ");
+        scanf("%d", &choice);
+    }
+}
+
+// Insert at beginning
+void insert_begin()
+{
+    struct node *newnode;
+
+    newnode = (struct node*)malloc(sizeof(struct node));
+
+    printf("Enter data to insert at beginning: ");
+    scanf("%d", &newnode->data);
+
+    newnode->next = head;
+    head = newnode;
+}
+
+// Insert at end
+void insert_end()
+{
+    struct node *newnode, *temp;
+
+    newnode = (struct node*)malloc(sizeof(struct node));
+
+    printf("Enter data to insert at end: ");
+    scanf("%d", &newnode->data);
+
+    newnode->next = NULL;
+
+    if(head == NULL)
+    {
+        head = newnode;
+    }
+    else
+    {
+        temp = head;
+
+        while(temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+
+        temp->next = newnode;
+    }
+}
+
+// Insert after a given position
+void insert_position()
+{
+    struct node *newnode, *temp;
+    int pos, i = 1, count = 0;
+
+    if(head == NULL)
+    {
+        printf("List is empty\n");
+        return;
+    }
+
+    printf("Enter position after which node to insert: ");
+    scanf("%d", &pos);
+
+    temp = head;
+
+    // Count nodes
+    while(temp != NULL)
+    {
+        count++;
+        temp = temp->next;
+    }
+
+    if(pos <= 0 || pos > count)
+    {
+        printf("Invalid position\n");
+        return;
+    }
+
+    newnode = (struct node*)malloc(sizeof(struct node));
+
+    printf("Enter data: ");
+    scanf("%d", &newnode->data);
+
+    temp = head;
+
+    while(i < pos)
+    {
+        temp = temp->next;
+        i++;
+    }
+
+    newnode->next = temp->next;
+    temp->next = newnode;
+}
+
+// Display linked list
+void display()
+{
+    struct node *temp;
+
+    if(head == NULL)
+    {
+        printf("List is empty\n");
+        return;
+    }
+
+    temp = head;
+
+    printf("Linked List: ");
+
+    while(temp != NULL)
+    {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+
+    printf("NULL\n");
+}
+
+// Main function
+int main()
+{
+    create();
+    display();
+
+    insert_begin();
+    display();
+
+    insert_end();
+    display();
+
+    insert_position();
+    display();
+
+    return 0;
+}
