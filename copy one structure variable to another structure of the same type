@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+struct Student {
+    int id;
+    char name[50];
+    float marks;
+};
+
+int main() {
+    struct Student s1 = {1, "Charan", 85.5};
+    struct Student s2;
+
+    s2 = s1;
+
+    printf("Details of s2 (copied from s1):\n");
+    printf("ID: %d\n", s2.id);
+    printf("Name: %s\n", s2.name);
+    printf("Marks: %.2f\n", s2.marks);
+
+    return 0;
+}
